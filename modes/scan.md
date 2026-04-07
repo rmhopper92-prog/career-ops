@@ -48,13 +48,33 @@ Los `search_queries` con `site:` filters cubren portales de forma transversal (t
 
 Los niveles son aditivos — se ejecutan todos, los resultados se mezclan y deduplicar.
 
+## Recency Rule — MANDATORY
+
+**Only add postings from the last 7 days to pipeline.md.** This is non-negotiable.
+
+- Calculate the cutoff date: today minus 7 days (e.g., if today is 2026-04-07, cutoff = 2026-03-31)
+- **For WebSearch queries:** Append `after:{cutoff-date}` to every query before executing
+- **For Playwright direct URLs:** Use the built-in date filter parameters in the `careers_url` (e.g., `fromage=7` for Indeed, `f_TPR=r604800` for LinkedIn)
+- **For each posting found:** Look for a visible posting date on the page
+  - Date visible + within 7 days → ✅ add to pipeline
+  - Date visible + older than 7 days → ❌ skip, log as `skipped_stale` in scan-history.tsv
+  - No date visible, but posting page is active with full JD → ✅ add to pipeline with note `[date unknown]`
+  - No date visible and page seems inactive or generic → ❌ skip, log as `skipped_stale`
+
+**Scan-history.tsv status values (updated):**
+- `added` — passed all filters and added to pipeline
+- `skipped_title` — title filter didn't match
+- `skipped_dup` — already in scan history, applications, or pipeline
+- `skipped_stale` — posting date older than 7 days or unverifiable
+
 ## Workflow
 
 1. **Leer configuración**: `portals.yml`
-2. **Leer historial**: `data/scan-history.tsv` → URLs ya vistas
-3. **Leer dedup sources**: `data/applications.md` + `data/pipeline.md`
+2. **Calcular fecha de corte**: today minus 7 days (ISO format: YYYY-MM-DD)
+3. **Leer historial**: `data/scan-history.tsv` → URLs ya vistas
+4. **Leer dedup sources**: `data/applications.md` + `data/pipeline.md`
 
-4. **Nivel 1 — Playwright scan** (paralelo en batches de 3-5):
+5. **Nivel 1 — Playwright scan** (paralelo en batches de 3-5):
    Para cada empresa en `tracked_companies` con `enabled: true` y `careers_url` definida:
    a. `browser_navigate` a la `careers_url`
    b. `browser_snapshot` para leer todos los job listings
@@ -79,16 +99,28 @@ Los niveles son aditivos — se ejecutan todos, los resultados se mezclan y dedu
       - **company**: después del " @ " en el título, o extraer del dominio/path
    c. Acumular en lista de candidatos (dedup con Nivel 1+2)
 
-6. **Filtrar por título** usando `title_filter` de `portals.yml`:
+7. **Filtrar por título** usando `title_filter` de `portals.yml`:
    - Al menos 1 keyword de `positive` debe aparecer en el título (case-insensitive)
    - 0 keywords de `negative` deben aparecer
    - `seniority_boost` keywords dan prioridad pero no son obligatorios
 
-7. **Deduplicar** contra 3 fuentes:
+8. **Verificar recencia** (7-day rule — ver sección Recency Rule arriba):
+   - Check posting date on each result page
+   - Skip if older than 7 days → log as `skipped_stale`
+   - Proceed if within 7 days or date unknown with active JD
+
+9. **Deduplicar** contra 3 fuentes:
    - `scan-history.tsv` → URL exacta ya vista
    - `applications.md` → empresa + rol normalizado ya evaluado
    - `pipeline.md` → URL exacta ya en pendientes o procesadas
 
+10. **Para cada oferta nueva que pase filtros**:
+    a. Añadir a `pipeline.md` sección "Pendientes": `- [ ] {url} | {company} | {title}`
+    b. Registrar en `scan-history.tsv`: `{url}\t{date}\t{query_name}\t{title}\t{company}\tadded`
+
+11. **Ofertas filtradas por título**: registrar en `scan-history.tsv` con status `skipped_title`
+12. **Ofertas duplicadas**: registrar con status `skipped_dup`
+13. **Ofertas stale**: registrar con status `skipped_stale`
 7.5. **Verificar liveness de resultados de WebSearch (Nivel 3)** — ANTES de añadir a pipeline:
 
    Los resultados de WebSearch pueden estar desactualizados (Google cachea resultados durante semanas o meses). Para evitar evaluar ofertas expiradas, verificar con Playwright cada URL nueva que provenga del Nivel 3. Los Niveles 1 y 2 son inherentemente en tiempo real y no requieren esta verificación.

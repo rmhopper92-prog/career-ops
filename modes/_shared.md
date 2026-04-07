@@ -25,6 +25,15 @@
 
 ## Scoring System
 
+The skill applies with EQUAL rigor to ALL target roles. None is primary or secondary -- any is a success if comp and remote alignment are right:
+
+| Archetype | Thematic axes | What they buy |
+|-----------|---------------|---------------|
+| **HR Generalist / HR Operations** | Full-cycle HR, compliance, HRIS, onboarding, employee relations | Someone who owns the employee lifecycle end-to-end with systems rigor |
+| **HRIS Analyst / Systems Specialist** | HRIS implementation, data integrity, reporting, optimization | Someone who makes HRIS work and generates actionable workforce data |
+| **People Operations** | Scalable processes, employee experience, cross-functional alignment | Someone who builds HR infrastructure that supports company growth |
+| **Talent Acquisition Specialist** | Full-cycle recruiting, sourcing, onboarding design, ATS management | Someone who fills roles efficiently and creates a great candidate experience |
+| **HR Business Partner** | Strategic partnership, employee relations, org development, coaching | Someone who aligns HR to business objectives at the manager/leader level |
 The evaluation uses 6 blocks (A-F) with a global score of 1-5:
 
 | Dimension | What it measures |
@@ -44,6 +53,73 @@ The evaluation uses 6 blocks (A-F) with a global score of 1-5:
 
 ## Archetype Detection
 
+> **Concrete metrics: read from `cv.md` + `config/profile.yml` at evaluation time. NEVER hardcode numbers here.**
+
+| If the role is... | Emphasize about the candidate... | Key proof points |
+|-------------------|----------------------------------|-----------------|
+| HR Generalist / Operations | HRIS implementation lead, compliance owner, onboarding architect | NeoGov implementation, 150+ hires/yr, EEO/ACA/FMLA reporting |
+| HRIS Analyst / Systems | Enterprise HRIS implementation, data integrity at scale, system optimization | NeoGov OHC across 35+ depts, 2,900+ employee data integrity, 20% error reduction |
+| People Operations | Scalable processes, cross-functional partnership, compliance infrastructure | Onboarding program design, manager training delivery, regulatory audit readiness |
+| Talent Acquisition | ATS management, requisition workflows, manager enablement | NeoGov recruitment module, manager training on hiring, 150+ annual hires |
+| HR Business Partner | Employee relations, policy interpretation, multi-stakeholder partnership | Cross-dept employee relations work, leadership training, SHRM-CP credential |
+
+### Exit Narrative (use in ALL framings)
+
+Use the candidate's exit story from `config/profile.yml → narrative.exit_story` to frame ALL content:
+- **In PDF Summaries:** Bridge from implementation leadership to new opportunity — "Built HR infrastructure from the ground up at a 2,900-person org. Now seeking a fully remote role to apply the same rigor at scale."
+- **In STAR stories:** Lead with the scope (35+ departments, 2,900+ employees) and tie to compliance outcomes.
+- **In Draft Answers:** Emphasize SHRM-CP, HRIS implementation ownership, and cross-functional partnership as differentiators.
+- **When the JD asks for "systems thinker", "process builder", "compliance-minded", "self-starter":** This is the #1 differentiator. Increase match weight.
+
+### Cross-cutting Advantage
+
+Frame profile as **"HR systems owner with real compliance outcomes"** that adapts framing to the role:
+- For HR Generalist: "practitioner who owns compliance AND builds the systems that enforce it"
+- For HRIS: "implementation leader with data integrity ownership at enterprise scale"
+- For People Ops: "process builder who reduces errors and improves employee experience simultaneously"
+- For TA: "recruiter-turned-systems-owner who redesigned the full talent acquisition workflow"
+- For HRBP: "generalist with deep compliance depth and cross-functional credibility"
+
+The SHRM-CP + HRIS implementation combo is unusual at the generalist level — lead with it.
+
+### Comp Intelligence
+
+**Target range:** $70K–$90K (read from `config/profile.yml → compensation`)
+
+**Market benchmarks (verify with WebSearch at evaluation time):**
+- HR Generalist (remote, 2-4 yrs exp): $55K–$80K nationally; $65K–$90K in major markets
+- HRIS Analyst (remote): $65K–$95K
+- People Operations Specialist (remote, tech companies): $70K–$100K
+- Government/public sector HR pays below market — private sector remote roles typically pay more
+
+**When asked about salary:**
+> "Based on market data for remote HR roles with HRIS implementation experience, I'm targeting $70K–$90K. I'm flexible on structure depending on the full package."
+
+**If offered below $70K:**
+> "I appreciate the offer. I'm targeting $70K as a minimum based on market research for this scope of role. Is there flexibility to get there?"
+
+**When asked about relocation:**
+> "I'm relocating to Chicago and open to roles nationally — I'm targeting fully remote positions."
+
+### Location Policy
+
+**Non-negotiable:** Role must be fully remote. This is an automatic disqualifier if not met.
+
+**In forms:**
+- Binary "can you be on-site?" questions: answer No unless role is confirmed remote-friendly
+- In free-text fields: "Fully remote preferred. Chicago-area relocation in progress. Available in EST/CST."
+
+**In evaluations (scoring):**
+- Hybrid = automatic disqualifier. Score **1.0** on remote dimension regardless of other factors.
+- "Remote-friendly" with occasional travel = discuss with candidate before applying.
+- Only score **5.0** if JD explicitly says "fully remote" or "100% remote".
+
+### Time-to-offer priority
+- Working demo + metrics > perfection
+- Apply sooner > learn more
+- 80/20 approach, timebox everything
+
+---
 Classify every offer into one of these types (or hybrid of 2):
 
 | Archetype | Key signals in JD |
